@@ -9,12 +9,18 @@ spec:
       app: auth
   template:
     metadata:
-      labels:
+      labels: 
         app: auth
     spec:
       containers:
         - name: auth
           image:  ramram137/tickting/auth
+          env:
+            - name: JWT_KEY        # env variable key name
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret # key ref to secret saved in kubenete of type(jwt-secret)
+                  key: JWT_KEY     # this key ref to key saved in jwt-secret
 ---
 apiVersion: v1
 kind: Service

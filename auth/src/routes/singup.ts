@@ -4,8 +4,9 @@ import { RequestValidationError } from "../errors/request-validation-error";
 import { RequestDatabaseError } from "../errors/request-database-error";
 import { User } from "../models/users";
 import { BadRequestError } from "../errors/bad-request-error";
-require('express-async-errors');
+import jwt from "jsonwebtoken";
 
+require('express-async-errors');
 const router = express.Router();
 
 router.post('/api/users/signup', [
@@ -34,6 +35,19 @@ router.post('/api/users/signup', [
 
     const user = User.build({ email, password })
     await user.save();
+
+    //generate JWT 
+
+    const userjwt = jwt.sign({
+        id: user.id,
+        email: user.email
+    }, process.env.JWT_KEY!); //'!' this assure typescript that var is defined
+
+    // store it in session object
+    // session object value encrypt in base64 and store in cookie key (session) value (object) pair
+    req.session = {
+        jwt: userjwt
+    }
 
     return res.status(200).send(user)
 
