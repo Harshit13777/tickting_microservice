@@ -31,7 +31,7 @@ router.post('/api/users/signin', [
             console.log('User not exist')
             //bcz it aync function we pass error to next fun but we use library so not requ
 
-            throw new BadRequestError('Invalid credentials')
+            throw new BadRequestError('Not account exist')
         }
 
         if (!await Password.compare(Userexist.password, password)) {
