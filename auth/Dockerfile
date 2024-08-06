@@ -3,7 +3,8 @@ FROM node:alpine
 WORKDIR /app 
 # ./ this is WORKDIR of docker
 COPY package.json ./
-RUN npm install 
+# omit the install of pakage which are in --save-dev
+RUN npm install --omit=dev   
 # ./ first mean folder from , second folder to copy which is docker 
 COPY ./ ./
 
