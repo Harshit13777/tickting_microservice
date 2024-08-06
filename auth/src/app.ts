@@ -17,7 +17,7 @@ app.set('trust proxy', true); //bcz we use ingress nignix which is proxy
 app.use(json());
 app.use(cookieSession({
     signed: false,//disable encryption
-    secure: true // on https connection it will work 
+    secure: process.env.NODE_ENV !== 'test' // true mean -it works on https connection only. in testing env it must be false 
 }))
 //
 app.use(currentUserRouter)
