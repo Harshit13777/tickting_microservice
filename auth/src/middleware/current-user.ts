@@ -9,7 +9,8 @@ interface UserPayload {
     id: string;
     email: string;
 }
-//defining typescript global 
+//defining typescript global
+// this state that Request type has 'currentUser' also
 declare global {
     namespace Express {
         interface Request {
