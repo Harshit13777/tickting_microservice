@@ -45,6 +45,7 @@ router.post('/api/users/signup', [
 
     // store it in session object
     // session object value encrypt in base64 and store in cookie key (session) value (object) pair
+    
     req.session = {
         jwt: userjwt
     }
