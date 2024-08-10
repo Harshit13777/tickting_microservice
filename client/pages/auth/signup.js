@@ -1,30 +1,25 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import Router from "next/router";
+import useRequest from "../../hooks/useRequest";
 
 export default () => {
-  const [email, set_email] = useState("");
-  const [password, set_password] = useState("");
-  const [errorss, set_errors] = useState([]);
-
+  const { doRequest, Errors } = useRequest({
+    url: "/api/users/signup",
+    method: "post",
+    onSuccess: () => Router.push("/"),
+  });
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async (data) => {
+  const onSubmit = (data) => {
     const { Email, Password } = data;
     console.log(data);
-    try {
-      const response = await axios.post("/api/users/signup", {
-        email: Email,
-        password: Password,
-      });
-    } catch (error) {
-      console.log(error.response.data);
-      set_errors(error.response.data.Error);
-    }
+    doRequest({ email: Email, password: Password });
   };
 
   return (
@@ -82,6 +77,7 @@ export default () => {
             </p>
           )}
         </div>
+        {Errors}
         <div className="flex items-center justify-between">
           <input
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
