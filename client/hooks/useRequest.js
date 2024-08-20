@@ -15,7 +15,7 @@ export default ({ url, method, onSuccess }) => {
     } catch (error) {
       console.log(error);
       set_Errors(
-        <div className="m-10 w-full text-center flex-col items-center justify-center p-5">
+        <div className="m-10  text-center flex-col items-center justify-center p-5">
           <p className="text-red-500 italic text-center">Ooops...</p>
           <ul>
             {error.response.data.Error.map((err, i) => (

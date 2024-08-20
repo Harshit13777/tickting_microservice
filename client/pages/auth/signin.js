@@ -6,7 +6,7 @@ import useRequest from "../../hooks/useRequest";
 
 export default () => {
   const { doRequest, Errors } = useRequest({
-    url: "/api/users/signup",
+    url: "/api/users/signin",
     method: "post",
     onSuccess: () => Router.push("/"),
   });
@@ -23,12 +23,12 @@ export default () => {
   };
 
   return (
-    <div className="w-full relative h-screen flex  items-center justify-center bg-slate-200">
+    <div className="w-full flex items-center justify-center h-screen bg-slate-200">
       <h1 className="absolute top-5  text-center pt-10 pb-5 block font-bold text-xl ">
-        Sign Up
+        Sign In
       </h1>
       <form
-        className="md:flex  bg-white w-full md:w-fit shadow-2xl hover:shadow-lg shadow-slate-800  rounded px-8 pt-6 pb-8"
+        className="md:flex bg-white w-full md:w-fit shadow-2xl hover:shadow-lg shadow-slate-800  rounded px-8 pt-6 pb-8 mb-4"
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="flex-col">
@@ -56,7 +56,7 @@ export default () => {
                 </p>
               )}
             </div>
-            <div className="mb-4 p-5">
+            <div className="mb-5 p-5">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="password"
@@ -85,22 +85,22 @@ export default () => {
           </div>
           {Errors}
         </div>
-        <div className="space-y-7">
-          <div className="  space-y-3">
+        <div className=" flex-col-reverse space-y-7">
+          <div className=" space-y-3">
             <button
               className="bg-blue-500 block m-auto hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              onClick={() => Router.replace("./signin")}
+              onClick={() => Router.replace("./signup")}
             >
-              Sign In
+              Sign Up
             </button>
             <button className="bg-blue-500 m-auto block hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
               Forget Password
             </button>
           </div>
           <input
-            className="bg-blue-500 block m-auto shadow-lg hover:shadow-sm shadow-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="bg-blue-500 shadow-lg hover:shadow-sm shadow-blue-900 block m-auto hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             type="submit"
-            value={"Sign Up"}
+            value={"Sign In"}
           />
         </div>
       </form>
