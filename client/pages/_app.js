@@ -1,8 +1,9 @@
 import "../styles/globals.css";
 import buildClient from "../api/build-client";
-import Header from "../component/Header";
+import Header from "../components/Header";
 
 const Appcomponent = ({ Component, pageProps, currentUser }) => {
+  console.log("current user app", currentUser);
   return (
     <div>
       <Header currentUser={currentUser}></Header>
@@ -14,14 +15,21 @@ const Appcomponent = ({ Component, pageProps, currentUser }) => {
 Appcomponent.getInitialProps = async (appContext) => {
   //appContext = {Component ,ctx:{req,res}}
   console.log("i m app");
-  const client = buildClient(appContext.ctx);
-  const { data } = await client.get("/api/users/currentuser");
-
   let pageProps = {};
-  if (appContext.Component.getInitialProps) {
-    pageProps = appContext.Component.getInitialProps(appContext.ctx);
+  let currentUser = undefined;
+  try {
+    const client = buildClient(appContext.ctx);
+    const { data } = await client.get("/api/users/currentuser");
+    currentUser = data.currentUser;
+
+    if (appContext.Component.getInitialProps) {
+      pageProps = await appContext.Component.getInitialProps(appContext.ctx);
+    }
+    //console.log("pageprops", pageProps);
+  } catch (err) {
+    console.log(err);
   }
-  return { pageProps, ...data.currentUser };
+  return { pageProps, ...currentUser };
 };
 
 export default Appcomponent;
