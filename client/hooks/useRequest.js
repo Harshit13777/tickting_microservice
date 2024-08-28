@@ -18,7 +18,7 @@ export default ({ url, method, onSuccess }) => {
         <div className="m-10  text-center flex-col items-center justify-center p-5">
           <p className="text-red-500 italic text-center">Ooops...</p>
           <ul>
-            {error.response.data.Error.map((err, i) => (
+            {error?.response?.data?.Error?.map((err, i) => (
               <li className=" list-disc text-red-500 text-xs italic" key={i}>
                 {err.message}
               </li>
