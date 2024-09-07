@@ -8,7 +8,7 @@ build:
   local:
     push: false
   artifacts:
-    - image: ramram137/tickting/auth
+    - image: ramram137/tickting-auth
       context: auth
       docker:
         dockerfile: Dockerfile
@@ -16,11 +16,19 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
-    - image: ramram137/tickting/client
+    - image: ramram137/tickting-client
       context: client
       docker:
         dockerfile: Dockerfile
       sync:
         manual:
           - src: '**/*.js'
+            dest: .
+    - image: ramram137/tickting-tickets
+      context: tickets
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
             dest: .

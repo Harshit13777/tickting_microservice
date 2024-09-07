@@ -14,8 +14,10 @@ spec:
     spec:
       containers:
         - name: auth
-          image:  ramram137/tickting/auth
+          image:  ramram137/tickting-auth
           env:
+            - name: MONGO_URI
+              value: 'mongodb://auth-mongo-srv:27017/auth'
             - name: JWT_KEY        # env variable key name
               valueFrom:
                 secretKeyRef:
