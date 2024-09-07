@@ -4,8 +4,8 @@ import { currentUserRouter } from './routes/current-user';
 import { signinRouter } from './routes/signin';
 import { signoutRouter } from './routes/signout';
 import { signupRouter } from './routes/singup';
-import { errorHandler } from './middleware/error-handler';
-import { NotFoundError } from './errors/not-found-error';
+import { errorHandler } from '@rameticket/common';
+import { NotFoundError } from '@rameticket/common';
 require('express-async-errors');//need to attach on every file
 
 import mongoose from 'mongoose';

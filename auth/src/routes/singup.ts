@@ -1,9 +1,9 @@
 import express, { Response, Request, NextFunction } from "express";
 import { body, validationResult } from "express-validator";
-import { RequestValidationError } from "../errors/request-validation-error";
-import { RequestDatabaseError } from "../errors/request-database-error";
+import { RequestValidationError } from "@rameticket/common";
+import { RequestDatabaseError } from "@rameticket/common";
 import { User } from "../models/users";
-import { BadRequestError } from "../errors/bad-request-error";
+import { BadRequestError } from "@rameticket/common";
 import jwt from "jsonwebtoken";
 
 require('express-async-errors');

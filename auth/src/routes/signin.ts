@@ -1,10 +1,10 @@
 import express, { Response, Request, NextFunction } from "express";
 
 import { body, validationResult } from "express-validator";
-import { RequestValidationError } from "../errors/request-validation-error";
+import { RequestValidationError } from "@rameticket/common";
 import { User } from "../models/users";
-import { BadRequestError } from "../errors/bad-request-error";
-import { validateRequest } from "../middleware/validate-request";
+import { BadRequestError } from "@rameticket/common";
+import { validateRequest } from "@rameticket/common";
 import { Password } from "../services/password";
 import jwt from 'jsonwebtoken'
 
