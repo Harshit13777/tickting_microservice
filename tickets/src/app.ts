@@ -8,6 +8,9 @@ require('express-async-errors');//need to attach on every file
 import mongoose from 'mongoose';
 import cookieSession from 'cookie-session';
 import { createTicketRouter } from './routes/new';
+import { showTicket } from './routes/showTicket';
+import { indexTicketRouter } from './routes';
+import { updateTicketRouter } from './routes/update';
 
 export const app = express();
 
@@ -20,6 +23,9 @@ app.use(cookieSession({
 app.use(currentUser)//get user details from token
 
 app.use(createTicketRouter);
+app.use(showTicket)
+app.use(indexTicketRouter);
+app.use(updateTicketRouter)
 /*
 this not require because using express-async-errors
 app.all('*', async (req, res, next) => {
