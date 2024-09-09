@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import request from "supertest";
 import { app } from '../app';
 import { sign } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken'
 
 let mongo: any;
 //setup mongo server in memory
@@ -15,13 +16,15 @@ beforeAll(async () => {
     const mongoUri = await mongo.getUri();
 
     await mongoose.connect(mongoUri, {
-
+        dbName: "verifyMASTER"
     });
 })
 
 // before each test case reset the database
 beforeEach(async () => {
-    const collections = await mongoose.connection.db.collections();
+
+    const collections = await mongoose.connection.db?.collections()!;
+    //console.log('collection',collections)
     for (let collection of collections) {
         await collection.deleteMany({});
     }
@@ -36,22 +39,25 @@ afterAll(async () => {
     await mongoose.connection.close();
 })
 
-declare global {
-
-    var signup: () => Promise<string[]>
-
+declare global{
+    var signin:()=>string[];
 }
 
-global.signup = async () => {
-    const email = 'test@test.com'
-    const password = 'password';
+global.signin =()=>{
+    //build jwt payload
+    const payload={
+        id:'34kj3kj3',
+        email:'test@test.com'
+    }
+    // create jwt!
+    const token = jwt.sign(payload,process.env.JWT_KEY!);
+    //build session Object. {jwt:MY_JWT}
+    const session = {jwt:token};
+    //turn that session in to json
+const sessionJSon= JSON.stringify(session)
 
-    const res = await request(app)
-        .post('/api/users/signup')
-        .send({
-            email, password
-        })
-    const cookie = res.get('Set-Cookie') as string[];
-    return cookie
+    //take json and encode it as base64
+    const base64 = Buffer.from(sessionJSon).toString('base64')
 
+    return [`session=${base64}`];
 }
