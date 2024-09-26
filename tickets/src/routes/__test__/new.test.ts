@@ -2,6 +2,8 @@ import request from "supertest";
 import {app} from '../../app'
 import { Ticket } from "../../models/tickets";
 
+
+
 it('has router handler listeneing to /api/tickerts for post requests',async ()=>{
     const res = await request(app).
     post('/api/tickets')

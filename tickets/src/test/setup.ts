@@ -39,6 +39,9 @@ afterAll(async () => {
     await mongoose.connection.close();
 })
 
+jest.mock('../../nats-wrapper')
+
+
 declare global{
     var signin:()=>string[];
 }
