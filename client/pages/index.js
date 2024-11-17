@@ -1,20 +1,20 @@
 import axios from "axios";
 import buildClient from "../api/build-client";
+import { useEffect } from "react";
 
-const LandingPage = (data) => {
-  return data == null ? (
-    <>You are not sign in</>
+const LandingPage = ({ currentUser }) => {
+  return currentUser ? (
+    <h1>You are signed in</h1>
   ) : (
-    <h1 className="bg-blue">{data?.currentUser?.email}</h1>
+    <h1>You are NOT signed in</h1>
   );
 };
 
 LandingPage.getInitialProps = async (context) => {
-  //'context' prop passed when fun call by next server
-  // context = {req,res}
-  console.log("i m component");
+  console.log("LANDING PAGE!");
   const client = buildClient(context);
   const { data } = await client.get("/api/users/currentuser");
+
   return data;
 };
 

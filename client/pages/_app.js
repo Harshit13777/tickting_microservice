@@ -2,35 +2,33 @@ import "../styles/globals.css";
 import buildClient from "../api/build-client";
 import Header from "../components/Header";
 
-const Appcomponent = ({ Component, pageProps, currentUser }) => {
-  console.log("current user app", currentUser);
+const AppComponent = ({ Component, pageProps, currentUser }) => {
   return (
     <div>
-      <Header currentUser={currentUser}></Header>
-      <Component {...pageProps} />;
+      <Header currentUser={currentUser} />
+      <Component {...pageProps} />
     </div>
   );
 };
 
-Appcomponent.getInitialProps = async (appContext) => {
-  //appContext = {Component ,ctx:{req,res}}
-  console.log("i m app");
+AppComponent.getInitialProps = async (appContext) => {
+  const client = buildClient(appContext.ctx);
   let pageProps = {};
-  let currentUser = undefined;
+  let datares = undefined;
   try {
-    const client = buildClient(appContext.ctx);
     const { data } = await client.get("/api/users/currentuser");
-    currentUser = data.currentUser;
-    console.log("currentUser in app", currentUser);
+
+    datares = data;
     if (appContext.Component.getInitialProps) {
       pageProps = await appContext.Component.getInitialProps(appContext.ctx);
     }
-    return { pageProps, currentUser };
-    //console.log("pageprops", pageProps);
-  } catch (err) {
-    console.log(err);
+  } catch (e) {
+  } finally {
+    return {
+      pageProps,
+      ...datares,
+    };
   }
-  return { pageProps, currentUser };
 };
-
-export default Appcomponent;
+//
+export default AppComponent;
