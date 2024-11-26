@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orders-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: orders
+  template:
+    metadata:
+      labels: 
+        app: orders
+    spec:
+      containers:
+        - name: orders
+          image:  ramram137/tickting-orders
+          env:
+            - name: NATS_CLIENT_ID
+              valueFrom: 
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: NATS_URL
+              value: 'http://nats-srv:4222'
+            - name: NATS_CLUSTER_ID
+              value: tickting
+            - name: MONGO_URI
+              value: 'mongodb://orders-mongo-srv:27017/orders'
+            - name: JWT_KEY        # env variable key name
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret # key ref to secret saved in kubenete of type(jwt-secret)
+                  key: JWT_KEY     # this key ref to key saved in jwt-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: orders-srv
+spec:
+  selector: 
+    app: orders
+  ports:
+    - name: orders
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
+
+      
