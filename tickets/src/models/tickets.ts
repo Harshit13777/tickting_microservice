@@ -1,10 +1,12 @@
 import mongoose from "mongoose";
+import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 import { transform } from "typescript";
 
 interface TicketAttrs {
    title:string;
    price:number;
    userId:string;
+   
 }
 // interface described that User Model ha property
 // which is attached to it
@@ -18,7 +20,7 @@ interface TicketDoc extends mongoose.Document {
     title:string;
    price:number;
    userId:string;
-
+    version:number
 }
 
 
@@ -46,6 +48,8 @@ const TicketSchema = new mongoose.Schema({
     }
 });
 
+TicketSchema.set('versionKey', 'version');
+TicketSchema.plugin(updateIfCurrentPlugin);
 
 //attaching a method to User whcih return a User Model
 TicketSchema.statics.build = (attr: TicketAttrs) => {
