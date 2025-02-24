@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
 import { Message } from 'node-nats-streaming';
-import { TicketUpdatedEvent } from '@rallycoding/common';
+import { TicketUpdatedEvent } from '@rameticket/common';
 import { TicketUpdatedListener } from '../ticket-updated-listener';
 import { natsWrapper } from '../../../nats-wrapper';
-import { Ticket } from '../../../models/ticket';
+import { Ticket } from '../../../models/tickets';
 
 const setup = async () => {
   // Create a listener
