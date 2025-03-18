@@ -1,5 +1,5 @@
 import express , {NextFunction, Request, Response} from 'express'
-import {currentUser,requireAuth,validateRequest,NotAuthorizedError, NotFoundError} from '@rameticket/common'
+import {currentUser,requireAuth,validateRequest,NotAuthorizedError, NotFoundError, BadRequestError} from '@rameticket/common'
 import { body } from 'express-validator';
 import { Ticket } from '../models/tickets';
 import { TicketUpdatedPublisher } from '../events/publishers/ticket-updated-publisher';
@@ -20,9 +20,13 @@ validateRequest,async (req:Request,res:Response)=>{
    if(!ticket){
     throw new NotFoundError()
    } 
+   if(ticket.orderId){
+    throw new BadRequestError('Cannot edit a reserved ticket')
+   }
    if(ticket.userId !== req.currentUser!.id){
     throw new NotAuthorizedError()
    }
+
    ticket.set({
     title: req.body.title,
     price: req.body.price

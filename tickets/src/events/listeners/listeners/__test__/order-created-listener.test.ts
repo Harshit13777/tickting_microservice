@@ -7,7 +7,7 @@ import { Ticket } from '../../../../models/tickets';
 
 const setup = async () => {
   // Create an instance of the listener
-  const listener = new OrderCreatedListener(natsWrapper.client);
+  const listener = new OrderCreatedListener(natsWrapper.client());
 
   // Create and save a ticket
   const ticket = Ticket.build({
@@ -60,10 +60,10 @@ it('publishes a ticket updated event', async () => {
 
   await listener.onMessage(data, msg);
 
-  expect(natsWrapper.client.publish).toHaveBeenCalled();
+  expect(natsWrapper.client().publish).toHaveBeenCalled();
 
   const ticketUpdatedData = JSON.parse(
-    (natsWrapper.client.publish as jest.Mock).mock.calls[0][1]
+    (natsWrapper.client().publish as jest.Mock).mock.calls[0][1]
   );
 
   expect(data.id).toEqual(ticketUpdatedData.orderId);

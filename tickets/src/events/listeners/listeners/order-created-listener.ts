@@ -1,8 +1,8 @@
 import { Message } from 'node-nats-streaming';
-import { Listener, OrderCreatedEvent, Subjects } from '@rallycoding/common';
+import { Listener, OrderCreatedEvent, Subjects } from '@rameticket/common';
 import { queueGroupName } from './queue-group-name';
-import { Ticket } from '../../models/ticket';
-import { TicketUpdatedPublisher } from '../publishers/ticket-updated-publisher';
+import { Ticket } from '../../../models/tickets';
+import { TicketUpdatedPublisher } from '../../publishers/ticket-updated-publisher';
 
 export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
   subject: Subjects.OrderCreated = Subjects.OrderCreated;

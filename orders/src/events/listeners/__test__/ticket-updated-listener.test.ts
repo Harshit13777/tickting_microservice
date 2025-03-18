@@ -7,7 +7,7 @@ import { Ticket } from '../../../models/tickets';
 
 const setup = async () => {
   // Create a listener
-  const listener = new TicketUpdatedListener(natsWrapper.client);
+  const listener = new TicketUpdatedListener(natsWrapper.client());
 
   // Create and save a ticket
   const ticket = Ticket.build({
