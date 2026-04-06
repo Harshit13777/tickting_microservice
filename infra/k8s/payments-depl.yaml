@@ -31,6 +31,12 @@ spec:
                 secretKeyRef:
                   name: jwt-secret # key ref to secret saved in kubenete of type(jwt-secret)
                   key: JWT_KEY # this key ref to key saved in jwt-secret
+            - name: STRIPE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: stripe-secret
+                  key: STRIPE_KEY
+
 ---
 apiVersion: v1
 kind: Service
