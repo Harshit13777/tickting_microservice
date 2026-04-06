@@ -4,7 +4,7 @@ import nats,{Stan} from 'node-nats-streaming'
 class NatsWrapper{
     private _client?: Stan;
 
-    client(){
+    get client(){
         if(!this._client){
             throw new Error('Cannot access NATS client before connecting')
         }
@@ -16,11 +16,11 @@ class NatsWrapper{
 
        
         return new Promise<void>((resolve,reject)=>{
-            this.client().on('connect',()=>{
+            this.client.on('connect',()=>{
                 console.log('connected to NATS')
                 resolve()
             })
-            this.client().on('error',(err)=>{
+            this.client.on('error',(err: any)=>{
                 reject(err)
             })
         })

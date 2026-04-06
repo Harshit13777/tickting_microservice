@@ -30,16 +30,16 @@ const start = async () => {
             process.env.NATS_URL,
         )
 
-        natsWrapper.client().on('close',()=>{
+        natsWrapper.client.on('close',()=>{
             console.log('NATS connection closed!')
             process.exit()
 
         })
-        process.on('SIGINT', () => natsWrapper.client().close());
-        process.on('SIGTERM', () => natsWrapper.client().close());
+        process.on('SIGINT', () => natsWrapper.client.close());
+        process.on('SIGTERM', () => natsWrapper.client.close());
 
-        new OrderCreatedListener(natsWrapper.client()).listen;
-        new OrderCancelledListener(natsWrapper.client()).listen;
+        new OrderCreatedListener(natsWrapper.client).listen();
+        new OrderCancelledListener(natsWrapper.client).listen();
 
         mongoose.connect(process.env.MONGO_URI)
         console.log('connected to mongodb payments')

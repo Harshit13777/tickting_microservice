@@ -22,7 +22,7 @@ beforeAll(async () => {
 
 // before each test case reset the database
 beforeEach(async () => {
-
+    jest.clearAllMocks();
     const collections = await mongoose.connection.db?.collections()!;
     //console.log('collection',collections)
     for (let collection of collections) {
@@ -39,17 +39,17 @@ afterAll(async () => {
     await mongoose.connection.close();
 })
 
-jest.mock('../../nats-wrapper')
+jest.mock('../nats-wrapper')
 
 
 declare global{
-    var signin:()=>string[];
+    var signin:(id?: string)=>string[];
 }
 
-global.signin =()=>{
+global.signin =(id?: string)=>{
     //build jwt payload
     const payload={
-        id:new mongoose.Types.ObjectId().toHexString(),
+        id: id || new mongoose.Types.ObjectId().toHexString(),
         email:'test@test.com'
     }
     // create jwt!
