@@ -6,6 +6,14 @@ import { app } from '../app';
 import { sign } from 'jsonwebtoken';
 import jwt from 'jsonwebtoken'
 
+declare global {
+    var signin: (id?: string) => string[];
+}
+
+jest.mock('../nats-wrapper');
+
+process.env.STRIPE_KEY = 'snV23jjfFlw';
+
 let mongo: any;
 //setup mongo server in memory
 beforeAll(async () => {
@@ -42,22 +50,22 @@ afterAll(async () => {
 jest.mock('../nats-wrapper')
 
 
-declare global{
-    var signin:(id?: string)=>string[];
+declare global {
+    var signin: (id?: string) => string[];
 }
 
-global.signin =(id?: string)=>{
+global.signin = (id?: string) => {
     //build jwt payload
-    const payload={
+    const payload = {
         id: id || new mongoose.Types.ObjectId().toHexString(),
-        email:'test@test.com'
+        email: 'test@test.com'
     }
     // create jwt!
-    const token = jwt.sign(payload,process.env.JWT_KEY!);
+    const token = jwt.sign(payload, process.env.JWT_KEY!);
     //build session Object. {jwt:MY_JWT}
-    const session = {jwt:token};
+    const session = { jwt: token };
     //turn that session in to json
-const sessionJSon= JSON.stringify(session)
+    const sessionJSon = JSON.stringify(session)
 
     //take json and encode it as base64
     const base64 = Buffer.from(sessionJSon).toString('base64')
