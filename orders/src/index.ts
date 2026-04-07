@@ -4,24 +4,25 @@ import { natsWrapper } from "./nats-wrapper"
 import { TicketCreatedListener } from "./events/listeners/ticket-created-listener"
 import { TicketUpdatedListener } from "./events/listeners/ticket-updated-listener"
 import { ExpirationCompleteListener } from "./events/listeners/expiration-complete-listener"
+import { PaymentCreatedListener } from "./events/listeners/payment-created-listener"
 
 const start = async () => {
     if (!process.env.JWT_KEY) {
         throw new Error('JWT_KEY must be defined')
     }
-    if(!process.env.MONGO_URI){
+    if (!process.env.MONGO_URI) {
         throw new Error('MONGO_URI must be defined')
     }
-    if(!process.env.NATS_CLIENT_ID){
+    if (!process.env.NATS_CLIENT_ID) {
         throw new Error('NATS_CLIENT_ID must be defined')
     }
-    if(!process.env.NATS_URL){
+    if (!process.env.NATS_URL) {
         throw new Error('NATS_URL must be defined')
     }
-    if(!process.env.NATS_CLUSTER_ID){
+    if (!process.env.NATS_CLUSTER_ID) {
         throw new Error('NATS_CLUSTER_ID must be defined')
     }
-    
+
 
     try {
         //creating and connected to mongodb 'auth' database
@@ -32,7 +33,7 @@ const start = async () => {
         )
 
 
-        natsWrapper.client().on('close',()=>{
+        natsWrapper.client().on('close', () => {
             console.log('NATS connection closed!')
             process.exit()
 
@@ -43,7 +44,8 @@ const start = async () => {
         new TicketCreatedListener(natsWrapper.client()).listen();
         new TicketUpdatedListener(natsWrapper.client()).listen();
         new ExpirationCompleteListener(natsWrapper.client()).listen();
-        
+        new PaymentCreatedListener(natsWrapper.client()).listen();
+
         mongoose.connect(process.env.MONGO_URI)
         console.log('connected to mongodb tickets')
     } catch (error) {
